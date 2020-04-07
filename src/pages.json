@@ -1,16 +1,78 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
-			"path": "pages/index/index",
+			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/phone-login/phone-login",
+			"style": {
+				"navigationBarTitleText": "手机号登录"
+			}
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/course/course",
+			"style": {
+				"navigationBarTitleText": "课程"
+			}
+		},
+		{
+			"path": "pages/study/study",
+			"style": {
+				"navigationBarTitleText": "学习"
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": "我的"
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "酷丁鱼课堂",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/home/home",
+				"iconPath": "static/tabs/icon_home@2x.png",
+				"selectedIconPath": "static/tabs/icon_home_selected@2x.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/course/course",
+				"iconPath": "static/tabs/icon_course@2x.png",
+				"selectedIconPath": "static/tabs/icon_course_selected@2x.png",
+				"text": "课程"
+			},
+			{
+				"pagePath": "pages/study/study",
+				"iconPath": "static/tabs/icon_study@2x.png",
+				"selectedIconPath": "static/tabs/icon_study_selected@2x.png",
+				"text": "学习"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/tabs/icon_my@2x.png",
+				"selectedIconPath": "static/tabs/icon_my_selected@2x.png",
+				"text": "我的"
+			}
+		]
 	}
 }
