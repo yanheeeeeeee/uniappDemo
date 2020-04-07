@@ -9,38 +9,59 @@
         class="get_vcode"
         :style="{color: isCountDown ? '#ccc' : 'black'}"
       >{{tips}}</div>
-      <input class="vcode" placeholder="请输入验证码" type="number" />
+      <input class="vcode" v-model="vcode" placeholder="请输入验证码" type="number" />
     </div>
-    <div class="phone-login">
+    <div class="phone-login" @click="toLogin">
       <img src="/static/images/phone_login@2x.png" alt />
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import fetch from "../../utils/fetch";
-export default {
+export default Vue.extend({
   data() {
     return {
       tips: "获取验证码",
       phone: "",
       vcode: "",
-      isCountDown: false
+      count: 60,
+      isCountDown: false,
+      timerId: NaN
     };
   },
   methods: {
     async getVcode() {
+      // 验证是否在倒计时状态
+      if (this.isCountDown) return;
+
       // 验证手机号是否合法
       const reg = /^1[3456789][0-9]{9}$/;
       if (!reg.test(this.phone)) {
         return uni.showToast({
           title: "手机号不合法!",
-          icon:"none"
+          icon: "none"
         });
       }
 
+      this.isCountDown = true;
+      this.tips = `${this.count}`;
+
+      this.timerId = setInterval(() => {
+        this.count--;
+        this.tips = `${this.count}`;
+
+        if (this.count === 0) {
+          clearInterval(this.timerId);
+          this.count = 60;
+          this.isCountDown = false;
+          this.tips = "获取验证码";
+        }
+      }, 1000);
+
       // 发送请求获取验证码
-      let res = await fetch({
+      const res: any = await fetch({
         url: "user/vcode",
         data: {
           phone: this.phone
@@ -48,9 +69,50 @@ export default {
       });
 
       console.log(res);
+
+      if (res.data.status === 0) {
+        // 显示验证码
+        uni.showToast({
+          title: `${res.data.vcode}`, // title的属性值必须是string , 不能直接将res.data.vcode赋值给它, 因为它是一个数值类型
+          icon: "none",
+          duration: 1000
+        });
+      }
+    },
+
+    // 发送请求进行登录
+    async toLogin() {
+      let res: any = await fetch({
+        url: "user/login",
+        method: "POST",
+        data: {
+          phone: this.phone,
+          vcode: this.vcode
+        }
+      });
+
+      console.log(res);
+
+      // 登录成功则
+      if (res.data.status === 0) {
+        // 显示提示消息
+        uni.showToast({
+          title: "登录成功!",
+          icon: "none",
+          duration: 1500
+        });
+
+        // 将返回的token到本地
+        uni.setStorageSync({ my_token: res.data.token });
+
+        // 跳转至首页
+        uni.reLaunch({
+          url: "/pages/home/home"
+        });
+      }
     }
   }
-};
+});
 </script>
 
 <style lang="less" scoped>
