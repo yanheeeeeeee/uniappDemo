@@ -21,4 +21,7 @@ export default Vue.extend({
 
 <style>
 /*每个页面公共css */
+body {
+  background-color: #f8f8f8;
+}
 </style>
