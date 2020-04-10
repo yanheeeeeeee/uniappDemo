@@ -25,7 +25,7 @@ if (
     plugins.push([
       require('@dcloudio/vue-cli-plugin-hbuilderx/packages/babel-plugin-console'),
       {
-        file (file) {
+        file(file) {
           file = normalizePath(file)
           if (file.indexOf(input) === 0) {
             return path.relative(input, file)
@@ -34,7 +34,7 @@ if (
         }
       }
     ])
-  } catch (e) {}
+  } catch (e) { }
 }
 
 process.UNI_LIBRARIES = process.UNI_LIBRARIES || ['@dcloudio/uni-ui']
@@ -50,6 +50,14 @@ process.UNI_LIBRARIES.forEach(libraryName => {
   ])
 })
 module.exports = {
+  plugins: [
+    ['import', {
+      libraryName: 'vant',
+      libraryDirectory: 'es',
+      style: "css"
+    }, 'vant']
+  ],
+
   presets: [
     [
       '@vue/app',

@@ -1,6 +1,7 @@
 <template>
   <view class="home-container">
-    <search_bar placeholder="请输入搜索课程"></search_bar>
+    <!-- 在自定义组件上添加原生事件, 需要在事件名后添加.native -->
+    <search_bar placeholder="请输入搜索课程" @click.native="toSearch"></search_bar>
     <!-- 1.0 轮播图 -->
     <swiper
       :indicator-dots="true"
@@ -9,7 +10,7 @@
       :interval="3000"
       :duration="1000"
     >
-      <swiper-item v-for="item in swipers" :key="item.id">
+      <swiper-item v-for="item in swipers" :key="item.id" @click.native="toCourseDetail(item.id)">
         <image :src="item.img_url" mode />
       </swiper-item>
     </swiper>
@@ -19,7 +20,12 @@
     </view>
     <!-- 2.0 推荐课程 -->
     <scroll-view :scroll-x="true" class="course-container">
-      <view class="course-item" v-for="item in courseList" :key="item.id">
+      <view
+        class="course-item"
+        v-for="item in courseList"
+        :key="item.id"
+        @click.native="toCourseDetail(item.id)"
+      >
         <image :src="item.icon" mode />
       </view>
     </scroll-view>
@@ -29,7 +35,12 @@
     </view>
     <!-- 3.0 热门视频 -->
     <view class="hot-video">
-      <view class="video-item" v-for="item in videoList" :key="item.id">
+      <view
+        class="video-item"
+        v-for="item in videoList"
+        :key="item.id"
+        @click.native="toCourseDetail(item.id)"
+      >
         <image :src="item.cover_photo_url" mode />
         <view class="title">{{item.name}}</view>
         <view class="subtitle">{{item.view_count}}人次已观看</view>
@@ -85,6 +96,23 @@ export default Vue.extend({
       if (res.data.status === 0) {
         this.videoList = res.data.message;
       }
+    },
+
+    // 点击搜索框事件
+    toSearch() {
+      // 跳转至搜索页面
+      console.log("111");
+      uni.navigateTo({
+        url: "/pages/search/search"
+      });
+    },
+
+    // 跳转到课程详情页面
+    toCourseDetail(id: any) {
+      console.log(id);
+      uni.navigateTo({
+        url: "/pages/course-detail/course-detail?id=" + id
+      });
     }
   },
   created() {
