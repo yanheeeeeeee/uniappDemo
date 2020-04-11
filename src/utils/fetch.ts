@@ -8,12 +8,16 @@ const fetch = ({ url = "", data = {}, method = "GET", header = {}, tipName = "�
         });
 
         // 从本地获取token并添加到请求头
+        const header = {
+            Authorization: ''
+        }
+
         const my_token = uni.getStorageSync("my_token")
         if (my_token) {
 
             header.Authorization = my_token
         }
-        // 调用uni.request发送请求
+        // 调用uni.request发送请求d
         uni.request({
             url: `${BASE_URL}${url}`,
             data,
